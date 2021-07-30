@@ -1,0 +1,48 @@
+<div cdkDropListGroup>
+  <div class="row">
+    <div class="col">
+      <input class="form-control mb-3 mt-3" #in (keyup)="filter(in.value)" type="text" placeholder="filtrar">
+    <div
+      cdkDropList
+      [cdkDropListData]="filtrados"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of filtrados" cdkDrag>{{item.name}}</div>
+    </div>
+    </div>
+    <div class="col">
+      <div
+      cdkDropList
+      [cdkDropListData]="data"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of data" cdkDrag>
+        <div class="row">
+          <div class="col-2">
+            <input (change)="activeGroup(item)" [formControl]="item.active" type="checkbox">
+          </div>
+          <div class="col-6">
+            <p>{{ item.name }}</p>
+          </div>
+          <div class="col-4">
+            <button (click)="deleteGroup(item.id)" class="btn btn-danger mb-3"> Borrar </button>
+          </div>
+        </div>
+        <div class="scroll">
+          <div class="row" *ngFor="let employee of item.employees">
+            <div class="row">
+              <div class="col-2">
+                <input [formControl]="employee.active" type="checkbox">
+              </div>
+              <div class="col-10">
+                <p> {{ employee.name }} </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <button (click)="continuar()" class="btn btn-info"> Continuar </button>
+    </div>
+  </div>
+</div>

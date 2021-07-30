@@ -1,0 +1,75 @@
+
+<div class="tab">
+  <div class="row">
+    <div class="col">
+      <input #input (keyup)="filtrar(input.value)" placeholder="Filtrar" type="text" class="form-control mb-2">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Fecha nacimiento</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of paginator; let i = index">
+            <th scope="row">{{ user.index + 1 }}</th>
+            <td>{{ user.name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.birthday | date:'d/MM/YYYY' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p> {{ ((index - 1)* size) + 1 }} / {{ ((index - 1)* size) + size < len ? ((index - 1)* size) + size : len }} - {{ len }} </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="buttons text-center">
+        <button class="mr-2" *ngIf="index > 1" (click)="nav(true)" class="btn btn-success"> Previo </button>
+        <button class="ml-2" *ngIf=" ((index - 1)* size) + size <= len " (click)="nav(false)" class="btn btn-success"> Siguiente </button>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="col">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-3 row">
+          <label class="col-sm-2 col-form-label">Nombre:</label>
+          <div class="col-sm-10">
+            <input [ngClass]="{ 'is-invalid': this.form.get('name')?.errors && this.form.get('name')?.touched }" formControlName="name" type="text" class="form-control">
+            <div id="validationServer05Feedback" class="invalid-feedback">
+              {{ this.form.get('name')?.hasError('required') ? 'El nombre es requerido': 'Maxima longitud 30 caracteres' }}
+            </div>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label class="col-sm-2 col-form-label">Apellidos:</label>
+          <div class="col-sm-10">
+            <input [ngClass]="{ 'is-invalid': this.form.get('last_name')?.errors && this.form.get('last_name')?.touched}" formControlName="last_name" type="text" class="form-control">
+            <div id="validationServer05Feedback" class="invalid-feedback">
+              {{ this.form.get('last_name')?.hasError('required') ? 'El apellido es requerido': 'Maxima longitud 30 caracteres' }}
+            </div>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label class="col-sm-2 col-form-label">Fecha nacimiento:</label>
+          <div class="col-sm-10">
+            <input [ngClass]="{ 'is-invalid': this.form.get('birthday')?.errors && this.form.get('birthday')?.touched}" formControlName="birthday" type="date" class="form-control">
+            <div id="validationServer05Feedback" class="invalid-feedback">
+              La fecha de nacimiento es requerido
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success"> Registrar usuario </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
